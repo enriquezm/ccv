@@ -1,33 +1,36 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import './App.css'
 
 function App() {
-  const [message, setMessage] = useState('loading...');
+  const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch('/api/hello');
+  const handleClick = async () => {
+    try {
+      const response = await fetch('/api/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ number: '1234' }),
+      });
 
-        if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.statusText}`);
-        }
-
-        const result = await response.json();
-        setMessage(result.message);
-      } catch (e) {
-        console.error(`error while fetching: ${e}`);
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
       }
 
-    };
-
-    fetchData();
-  }, []);
+      const result = await response.json();
+      setMessage(result.message);
+    } catch (e) {
+      console.error(`error while fetching: ${e}`);
+    }
+  };
 
   return (
     <>
       <h1>Credit Card Validator</h1>
-      <p>Message: {message}</p>
+      <input className='inputField' placeholder='Enter credit card number' />
+      <button className='validateButton' onClick={handleClick}>Validate</button>
+      { message && <p>{ message }</p> }
     </>
   )
 }
