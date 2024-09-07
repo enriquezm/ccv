@@ -1,9 +1,104 @@
-import { validate } from './validate';
+import { isLengthValid, isValid, luhnsAlgo, isEmpty, isNumeric } from './validate';
 
-describe('validate', () => {
-  it('should return card is valid', () => {
-    const result = validate('1234');
-    ``
-    expect(result).toBe('card is valid');
+describe('Validate card number', () => {
+  it('should return true for valid card number', () => {
+    const result = isValid('0998511974560732');
+
+    expect(result).toBe(true);
+  });
+});
+
+describe('Validate with Luhn Algorithm', () => {
+  it('should return false for 16 digit number', () => {
+    const result = luhnsAlgo('5849039485960238');
+  
+    expect(result).toBe(false);
+  });
+  
+  it('should return false for 13 digit number', () => {
+    const result = luhnsAlgo('1234567890786');
+    expect(result).toBe(false);
+  });
+  
+  it('should return false for 15 digit number', () => {
+    const result = isValid('748392836459872');
+    expect(result).toBe(false);
+  });
+  
+  it('should return false for 19 digit number', () => {
+    const result = isValid('7484758293846374839');
+    expect(result).toBe(false);
+  });
+  
+  it('should return true for 16 digit number', () => {
+    const result = luhnsAlgo('0998511974560732');
+  
+    expect(result).toBe(true);
+  });
+  
+  it('should return true for 13 digit number', () => {
+    const result = luhnsAlgo('605020171299586');
+  
+    expect(result).toBe(true);
+  });
+
+  it('should return true for 15 digit number', () => {
+    const result = luhnsAlgo('575675516377581');
+  
+    expect(result).toBe(true);
+  });
+
+  it('should return true for 19 digit number', () => {
+    const result = luhnsAlgo('0074456759133516497');
+  
+    expect(result).toBe(true);
+  });
+});
+
+describe('Validate is empty', () => {
+  it('should return true for empty string', () => {
+    const result = isEmpty('');
+
+    expect(result).toBe(true);
+  });
+
+  it('should return false for non-empty string', () => {
+    const result = isEmpty('1234567890123');
+
+    expect(result).toBe(false);
+  });
+});
+
+describe('Validate is numeric', () => {
+  it('should return false for non-numeric string', () => {
+    const result = isNumeric('123456789012a');
+
+    expect(result).toBe(false);
+  });
+
+  it('should return true for numeric string', () => {
+    const result = isNumeric('1234567890123');
+
+    expect(result).toBe(true);
+  });
+});
+
+describe('Validate card length', () => {
+  it('should return false for 12 digit number', () => {
+    const result = isLengthValid('123456789012');
+
+    expect(result).toBe(false);
+  });
+
+  it('should return false for 20 digit number', () => {
+    const result = isLengthValid('12345678901234567890');
+
+    expect(result).toBe(false);
+  });
+
+  it ('should return true for 13 digit number', () => {
+    const result = isLengthValid('1234567890123');
+
+    expect(result).toBe(true);
   });
 });
