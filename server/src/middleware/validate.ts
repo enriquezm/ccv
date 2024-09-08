@@ -3,18 +3,21 @@ import { Request, Response, NextFunction } from 'express';
 export const validate = (req: Request, res: Response, next: NextFunction) => {
   const { number } = req.body;
 
+    // enheancement: move to client side
     if (isEmpty(number)) {
       return res.status(400).json({
         message: 'Card number is required',
       });
     }
   
+    // enheancement: move to client side
     if (!isNumeric(number)) {
       return res.status(400).json({
         message: 'Card number must be a number',
       });
     }
   
+    // enheancement: move to client side
     if (!isLengthValid(number)) {
       return res.status(400).json({
         message: 'Card number must be between 13 and 19 digits',
