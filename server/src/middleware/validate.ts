@@ -1,9 +1,36 @@
-export const isValid = (cardNum: string): boolean => {
+import { Request, Response, NextFunction } from 'express';
 
-  return luhnsAlgo(cardNum) && isNumeric(cardNum) && isLengthValid(cardNum) && !isEmpty(cardNum);
+export const validate = (req: Request, res: Response, next: NextFunction) => {
+  const { number } = req.body;
+
+    if (isEmpty(number)) {
+      return res.status(400).json({
+        message: 'Card number is required',
+      });
+    }
+  
+    if (!isNumeric(number)) {
+      return res.status(400).json({
+        message: 'Card number must be a number',
+      });
+    }
+  
+    if (!isLengthValid(number)) {
+      return res.status(400).json({
+        message: 'Card number must be between 13 and 19 digits',
+      });
+    }
+  
+    if (!passedLuhnsAlgo(number)) {
+      return res.status(400).json({
+        message: 'Invalid card number',
+      });
+    }
+  
+    next();
 };
 
-export const luhnsAlgo = (cardNum: string): boolean => {
+export const passedLuhnsAlgo = (cardNum: string): boolean => {
   // reverse the card number
   const reversedCardNum = cardNum.split('').reverse().map(Number);
 

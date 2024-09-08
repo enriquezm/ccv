@@ -3,6 +3,7 @@ import './App.css'
 
 function App() {
   const [message, setMessage] = useState('');
+  const [input, setInput] = useState('');
 
   const handleClick = async () => {
     try {
@@ -11,15 +12,17 @@ function App() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ number: '1234' }),
+        // todo: encrypt number before sending off to api
+        body: JSON.stringify({ number: input }),
       });
 
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
-
       const result = await response.json();
-      setMessage(result.message);
+
+      if (response.status === 400) {
+        return setMessage(result.message);
+      };
+
+      setMessage('Valid card number!');
     } catch (e) {
       console.error(`error while fetching: ${e}`);
     }
@@ -28,7 +31,7 @@ function App() {
   return (
     <>
       <h1>Credit Card Validator</h1>
-      <input className='inputField' placeholder='Enter credit card number' />
+      <input value={input} onChange={(e) => setInput(e.target.value) } className='inputField' placeholder='Enter credit card number' />
       <button className='validateButton' onClick={handleClick}>Validate</button>
       { message && <p>{ message }</p> }
     </>
