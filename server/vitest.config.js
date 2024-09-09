@@ -8,6 +8,6 @@ export default defineConfig({
       provider: 'c8', // enables coverage reporting
       reporter: ['text', 'json', 'html'], // coverage output formats
     },
-    include: ['src/**/*.test.ts'],
+    include: ['src/tests/**/*.test.ts'],
   },
 });

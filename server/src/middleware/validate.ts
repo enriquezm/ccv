@@ -1,19 +1,19 @@
-import { Request, Response, NextFunction } from 'express';
+import { NextFunction, Request, Response } from 'express';
 
-export const validate = (req: Request, res: Response, next: NextFunction) => {
+export const validateCardNumber = (req: Request, res: Response, next: NextFunction) => {
   const { number } = req.body;
 
-    // enheancement: move to client side
+    // enhancement: move to client side
     if (isEmpty(number)) {
       return res.status(400).json({
-        message: 'Card number is required',
+        message: 'Card number is required and cannot be empty',
       });
     }
   
-    // enheancement: move to client side
+    // enhancement: move to client side
     if (!isNumeric(number)) {
       return res.status(400).json({
-        message: 'Card number must be a number',
+        message: 'Card number must contain only digits',
       });
     }
   

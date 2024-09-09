@@ -1,4 +1,4 @@
-import { isLengthValid, passedLuhnsAlgo, isEmpty, isNumeric } from './validate';
+import { isLengthValid, passedLuhnsAlgo, isEmpty, isNumeric } from '../../middleware/validate';
 
 describe('Validate with Luhn Algorithm', () => {
   it('should return false for 16 digit number', () => {

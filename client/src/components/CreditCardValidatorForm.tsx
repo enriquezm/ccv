@@ -7,9 +7,12 @@ const CreditCardValidatorForm = () => {
   const [isError, setIsError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const VALIDATION_ENDPOINT = '/api/v1/ccv/validate';
+
+  // enhancement: rate limit button click
   const handleClick = async () => {
     try {
-      const response = await fetch('/api/validate', {
+      const response = await fetch(VALIDATION_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
