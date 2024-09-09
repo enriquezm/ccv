@@ -25,12 +25,15 @@ Basic structure follows:
 ## Getting Started
 
 1. Install packages
+
 ``` npm ci ```
 
 2. Build application
+
 ``` npm run build ```
 
 3. Start application
+
 ```npm run start ```
 
 4. Head to [http://localhost:5173/](http://localhost:5173/)
