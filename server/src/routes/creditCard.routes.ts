@@ -1,10 +1,16 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { validateCardNumber } from '../middleware/validate';
 
 const router = Router();
 
-router.post('/validate', validateCardNumber, (req, res) => {
-  return res.status(200).json({
+interface ValidateCardRequest extends Request {
+  body: {
+    number: string;
+  };
+};
+
+router.post('/validate', validateCardNumber, (req: ValidateCardRequest, res: Response) => {
+  return res.status(201).json({
     message: 'Valid card number!',
   });
 });

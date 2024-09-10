@@ -2,14 +2,14 @@
 import request from 'supertest';
 import app from '../../server';
 
-const VALIDATION_ENDPOINT = '/api/v1/ccv/validate';
+const VALIDATION_ENDPOINT = '/api/v1/card/validate';
 
-describe('POST /api/v1/ccv/validate', () => {
+describe('POST /api/v1/card/validate', () => {
   it('should return success message', async () => {
     const payload = { "number": "0998511974560732" };
     const res = await request(app).post(VALIDATION_ENDPOINT).send(payload);
 
-    expect(res.status).toBe(200);
+    expect(res.status).toBe(201);
     expect(res.body.message).toBe('Valid card number!');
   });
 

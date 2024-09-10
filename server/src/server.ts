@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
 import creditCardRoute from './routes/creditCard.routes';
-import { postLimiter } from './middleware/rateLimiter';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -10,14 +9,18 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, '../../client/dist')));
 
-app.use('/api/v1/ccv', postLimiter, creditCardRoute);
+app.use('/api/v1/card', creditCardRoute);
+
+interface ErrorWithStatus extends Error {
+  status?: number;
+};
 
 // global middleware to handle missed errors
-app.use((error: Error, req: Request, res: Response ) => {
+app.use((error: ErrorWithStatus, req: Request, res: Response ) => {
   console.error(`Unhandled error: ${error.message}`);
 
-  res.status(500).json({
-    message: 'Internal server error',
+  res.status(error.status || 500).json({
+    message: error.message || 'Internal server error',
   });
 });
 

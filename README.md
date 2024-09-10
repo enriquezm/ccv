@@ -16,7 +16,7 @@ Basic structure follows:
 ├── /server             # folder containing all api/server code
 │   ├── /middleware     # custome middleware functions
 │   |── /routes         # all routes for feature
-│   ├── /tests          # unit tests
+│   ├── /tests          # tests unit/functional
 │   └── server.ts       # entry point of api
 │
 └── README.md           # project readme
@@ -25,15 +25,18 @@ Basic structure follows:
 ## Getting Started
 
 1. Install packages
-
-``` npm ci ```
+```
+npm ci 
+```
 
 2. Build application
-
-``` npm run build ```
+```
+npm run build 
+```
 
 3. Start application
-
-```npm run start ```
+```
+npm run start 
+```
 
 4. Head to [http://localhost:5173/](http://localhost:5173/)
