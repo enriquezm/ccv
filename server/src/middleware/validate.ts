@@ -1,6 +1,12 @@
 import { NextFunction, Request, Response } from 'express';
 
-export const validateCardNumber = (req: Request, res: Response, next: NextFunction) => {
+interface ValidateCardRequest extends Request {
+  body: {
+    number: string;
+  };
+};
+
+export const validateCardNumber = (req: ValidateCardRequest, res: Response, next: NextFunction) => {
   const { number } = req.body;
 
     // enhancement: move to client side
@@ -34,26 +40,16 @@ export const validateCardNumber = (req: Request, res: Response, next: NextFuncti
 };
 
 export const passedLuhnsAlgo = (cardNum: string): boolean => {
-  // reverse the card number
-  const reversedCardNum = cardNum.split('').reverse().map(Number);
+  const reversedDigits = cardNum.split('').reverse().map(Number);
+  const sum = reversedDigits.reduce((acc, digit, index) => {
+    if (index % 2 !== 0) {
+      const doubledDigit = digit * 2;
 
-  // iterate through reversed card number
-  let sum = 0;
-
-  for (let i = 0; i < reversedCardNum.length; i++) {
-    if (i % 2 !== 0) {
-      // double the number
-      // if greater than 9 substract 9 and add to sum
-      if (reversedCardNum[i] * 2 > 9) {
-        sum += reversedCardNum[i] * 2 - 9;
-      } else {
-        sum += reversedCardNum[i] * 2;
-      }
-    } else {
-      // else odd, add to sum
-      sum += reversedCardNum[i];
+      return acc + (doubledDigit > 9 ? doubledDigit - 9 : doubledDigit);
     }
-  }
+
+    return acc + digit;
+  }, 0);
 
   return sum % 10 === 0;
 };
